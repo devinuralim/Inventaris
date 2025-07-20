@@ -1,11 +1,19 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <!-- Sidebar Toggle (optional, kalau kamu pakai sidebar) -->
+
+    <!-- Sidebar Toggle (Topbar) - Untuk Mobile -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
 
+    <!-- Judul Dashboard di kiri -->
+    <h5 class="mb-0 font-weight-bold text-primary d-none d-sm-inline">Dashboard</h5>
+
+    <!-- Spacer agar judul di kiri dan menu user di kanan -->
+    <div class="ml-auto"></div>
+
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav">
+
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->

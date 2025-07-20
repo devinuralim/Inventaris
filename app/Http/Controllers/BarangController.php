@@ -16,10 +16,14 @@ class BarangController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where('nama_barang', 'like', '%' . $request->search . '%');
         }
+        if ($request->has('kategori') && $request->kategori != '') {
+        $query->where('kategori', $request->kategori);
+        }
 
-        $barang = $query->get();
+        $barang = $query->paginate(10);
+        $kategoriList = Barang::select('kategori')->distinct()->pluck('kategori');
 
-        return view('pages.barang.index', compact('barang'));
+        return view('pages.barang.index', compact('barang', 'kategoriList'));
     }
 
 
