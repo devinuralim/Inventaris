@@ -13,13 +13,21 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         $query = Barang::query();
+
+        //Search, filter berdasarkan nama barang
         if ($request->has('search') && $request->search != '') {
             $query->where('nama_barang', 'like', '%' . $request->search . '%');
         }
+
+        //kategori, filter berdasarkan kategori
         if ($request->has('kategori') && $request->kategori != '') {
         $query->where('kategori', $request->kategori);
         }
 
+        //urutkan berdasarkan waktu terbaru
+        $query->orderBy('created_at', 'desc');
+
+        //paginate menampilkan 10 barang
         $barang = $query->paginate(10);
         $kategoriList = Barang::select('kategori')->distinct()->pluck('kategori');
 
@@ -37,18 +45,21 @@ class BarangController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Menyimpan data baru
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nama_barang' => 'required|string|max:255',
-            'kategori' => 'required|string|max:255',
+            'kategori' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
             'jumlah' => 'required|integer',
             'harga_satuan' => 'required|string',
         ]);
 
+        //menghapus karakter selain angka dan harga
         $hargaBersih = preg_replace('/[^0-9]/', '', $validated['harga_satuan']);
 
+        //simpan ke database
         Barang::create([
             'nama_barang' => $validated['nama_barang'],
             'kategori' => $validated['kategori'],
@@ -56,11 +67,12 @@ class BarangController extends Controller
             'harga_satuan' => $hargaBersih,
         ]);
         
+        //kembali ke halaman daftar barang dengan pesan
         return redirect()->route('barang.index')->with('success', 'Data barang berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail barang
      */
     public function show(string $id)
     {
@@ -85,7 +97,7 @@ class BarangController extends Controller
         $request->validate([
             'nama_barang' => 'required',
             'kategori' => 'required',
-            'jumlah' => 'required|integer',
+            'kategori' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
             'harga_satuan' => 'required|string',
         ]);
         $hargaBersih = preg_replace('/[^0-9]/', '', $request->harga_satuan);
@@ -103,7 +115,7 @@ class BarangController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data barang
      */
     public function destroy(string $id)
     {

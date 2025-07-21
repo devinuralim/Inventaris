@@ -13,11 +13,14 @@ class DashboardController extends Controller
         // Total stok semua barang
         $stokTotal = Barang::sum('jumlah');
 
-        // Jumlah barang masuk (anggap sama dengan stok total)
-        $jumlahBarangMasuk = Barang::sum('jumlah');
+        // Jumlah jenis kategori
+        $jumlahJenisKategori = DB::table('barangs')
+        ->select(DB::raw('LOWER(TRIM(kategori)) as kategori'))
+        ->distinct()
+        ->count('kategori');
 
-        // Jumlah jenis barang (jumlah baris)
-        $jenisBarang = Barang::count();
+        // Jumlah jenis barang berdasarkan nama
+        $jenisBarang = Barang::select('nama_barang')->distinct()->count();
 
         // Data untuk Bar Chart (total stok per kategori)
         $dataBarChart = Barang::select('kategori', DB::raw('SUM(jumlah) as total_stok'))
@@ -32,7 +35,7 @@ class DashboardController extends Controller
         // Return ke view
         return view('pages.dashboard', compact(
             'stokTotal',
-            'jumlahBarangMasuk',
+            'jumlahJenisKategori',
             'jenisBarang',
             'dataBarChart',
             'kategoriList'
