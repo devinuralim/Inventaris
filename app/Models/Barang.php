@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Barang extends Model
 {
     use HasFactory;
+
     protected $table = 'barangs';
 
     protected $fillable = [

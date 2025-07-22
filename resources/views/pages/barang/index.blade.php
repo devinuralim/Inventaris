@@ -2,16 +2,12 @@
 
 @section('content')
 <div class="container-fluid">
-
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h4 class="text-gray-800 font-weight-bold">Data Barang</h4>
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Barang
         </a>
     </div>
-
-    <!-- Notifikasi -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -20,21 +16,17 @@
             </button>
         </div>
     @endif
-
-    <!-- Search & Filter Form -->
     <form method="GET" action="{{ route('barang.index') }}" class="mb-3">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <!-- Search -->
             <div class="input-group w-md-50" style="max-width: 300px;">
-                <input type="text" name="search" class="form-control" placeholder="Cari nama barang..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Cari nama barang..."
+                    value="{{ request('search') }}">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
-
-            <!-- Filter Kategori -->
             <div style="min-width: 200px;">
                 <select name="kategori" class="form-control" onchange="this.form.submit()">
                     <option value="">-- Semua Kategori --</option>
@@ -47,8 +39,6 @@
             </div>
         </div>
     </form>
-
-    <!-- Data Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 bg-white">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Barang</h6>
@@ -84,7 +74,8 @@
                                     <form action="{{ route('barang.destroy', $item->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus barang ini?')">
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Yakin ingin menghapus barang ini?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -99,11 +90,9 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
             <div class="mt-3">
                 {{ $barang->withQueryString()->links('pagination::bootstrap-4') }}
             </div>
-
         </div>
     </div>
 

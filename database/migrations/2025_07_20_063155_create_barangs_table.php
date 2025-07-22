@@ -12,18 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('barangs', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_barang');
-            $table->string('kategori');
-            $table->integer('jumlah');
-            $table->decimal('harga_satuan', 12, 2);
-            $table->timestamps();
+            $table->id(); 
+            $table->string('nama_barang'); 
+            $table->string('kategori'); 
+            $table->integer('jumlah'); 
+            $table->decimal('harga_satuan', 12, 2); 
+            $table->timestamps(); 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('barangs');
